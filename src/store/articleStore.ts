@@ -3,9 +3,11 @@ import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { db, firebaseEnabled } from '../lib/firebase'
 import { initialArticle, type Article, type ArticleRevision } from '../data/article'
 
+type ArticleDraft = Pick<Article, 'lead' | 'sections'>
+
 type ArticleState = {
   article: Article
-  saveRevision: (content: string, summary: string, author: string) => Promise<void>
+  saveRevision: (draft: ArticleDraft, summary: string, author: string) => Promise<void>
   restoreRevision: (revision: ArticleRevision) => Promise<void>
   loadRemote: () => Promise<void>
 }
@@ -34,17 +36,18 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
     if (snapshot.exists()) set({ article: snapshot.data() as Article })
     else await setDoc(ref, initialArticle)
   },
-  saveRevision: async (content, summary, author) => {
+  saveRevision: async (draft, summary, author) => {
     const current = get().article
     const revision: ArticleRevision = {
       id: String(current.revisionCount + 1),
       author,
       summary: summary.trim() || 'Artikel bearbeitet',
       createdAt: new Intl.DateTimeFormat('de-DE', { dateStyle: 'long', timeStyle: 'short' }).format(new Date()),
-      content,
+      content: JSON.stringify(draft),
     }
     const next: Article = {
       ...current,
+      ...draft,
       revisionCount: current.revisionCount + 1,
       lastUpdated: revision.createdAt,
       revisions: [revision, ...current.revisions],
@@ -54,5 +57,13 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
     const ref = firebaseEnabled ? articleRef() : null
     if (ref) await setDoc(ref, next)
   },
-  restoreRevision: async (revision) => get().saveRevision(revision.content, `Version ${revision.id} wiederhergestellt`, 'Angemeldete Nutzerin / angemeldeter Nutzer'),
+  restoreRevision: async (revision) => {
+    try {
+      const draft = JSON.parse(revision.content) as ArticleDraft
+      await get().saveRevision(draft, `Version ${revision.id} wiederhergestellt`, 'Angemeldete Nutzerin / angemeldeter Nutzer')
+    } catch {
+      // Alte Demo-Versionen enthalten keinen strukturierten Artikelinhalt.
+      await get().saveRevision({ lead: get().article.lead, sections: get().article.sections }, `Version ${revision.id} wiederhergestellt`, 'Angemeldete Nutzerin / angemeldeter Nutzer')
+    }
+  },
 }))

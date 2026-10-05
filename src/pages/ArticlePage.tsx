@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { BookOpen, ChevronDown, Edit3, History, Menu, Search, UserCircle, X } from 'lucide-react'
 import { useArticleStore } from '../store/articleStore'
 import { useAuthStore } from '../store/authStore'
-import type { Article, ArticleRevision } from '../data/article'
+import type { Article, ArticleRevision, ArticleSection } from '../data/article'
 
 export function ArticlePage() {
   const article = useArticleStore((state) => state.article)
@@ -14,7 +14,8 @@ export function ArticlePage() {
   const signInWithGoogle = useAuthStore((state) => state.signInWithGoogle)
   const signOutUser = useAuthStore((state) => state.signOutUser)
   const [editing, setEditing] = useState(false)
-  const [draft, setDraft] = useState(article.lead)
+  const [draftLead, setDraftLead] = useState(article.lead)
+  const [draftSections, setDraftSections] = useState<ArticleSection[]>(article.sections)
   const [editSummary, setEditSummary] = useState('')
   const [search, setSearch] = useState('')
   const [mobileNav, setMobileNav] = useState(false)
@@ -29,13 +30,14 @@ export function ArticlePage() {
   }, [article.sections, search])
 
   function startEditing() {
-    setDraft(article.lead)
+    setDraftLead(article.lead)
+    setDraftSections(article.sections.map((section) => ({ ...section, paragraphs: [...section.paragraphs] })))
     setEditing(true)
     setActiveTab('article')
   }
 
   async function publish() {
-    await saveRevision(draft, editSummary, user?.displayName || 'Gastbearbeitung')
+    await saveRevision({ lead: draftLead, sections: draftSections }, editSummary, user?.displayName || 'Gastbearbeitung')
     setEditing(false)
     setEditSummary('')
   }
@@ -84,7 +86,7 @@ export function ArticlePage() {
             <div className="wiki-article-meta">Aus Schlachpedia, der freien Enzyklopädie &nbsp;·&nbsp; <a href="#edit">Bearbeiten</a></div>
             <div className="wiki-content-grid">
               <article className="wiki-article-content">
-                {editing ? <Editor draft={draft} setDraft={setDraft} editSummary={editSummary} setEditSummary={setEditSummary} publish={publish} cancel={() => setEditing(false)} /> : <>
+                {editing ? <Editor lead={draftLead} setLead={setDraftLead} sections={draftSections} setSections={setDraftSections} editSummary={editSummary} setEditSummary={setEditSummary} publish={publish} cancel={() => setEditing(false)} /> : <>
                   <p className="wiki-lead">{article.lead} <sup>[<a href="#sources">1</a>]</sup></p>
                   <div className="wiki-notice"><strong>Hinweis:</strong> Dieser Artikel ist ein Platzhalter. Hilf mit, ihn zu verbessern, und <button onClick={startEditing}>bearbeite ihn</button>.</div>
                   <div className="wiki-toc"><strong>Inhaltsverzeichnis</strong><button>ausblenden</button>{article.sections.map((section, index) => <a key={section.id} href={`#${section.id}`}><span>{index + 1}</span>{section.heading}</a>)}</div>
@@ -103,8 +105,12 @@ export function ArticlePage() {
   )
 }
 
-function Editor({ draft, setDraft, editSummary, setEditSummary, publish, cancel }: { draft: string; setDraft: (value: string) => void; editSummary: string; setEditSummary: (value: string) => void; publish: () => Promise<void>; cancel: () => void }) {
-  return <div className="wiki-editor" id="edit"><div className="wiki-editor-toolbar"><strong>Artikel bearbeiten</strong><span>Quelltext · Vorschau · Hilfe</span></div><textarea value={draft} onChange={(event) => setDraft(event.target.value)} rows={12} aria-label="Artikeltext bearbeiten" /><label>Zusammenfassung der Änderung (optional)<input value={editSummary} onChange={(event) => setEditSummary(event.target.value)} placeholder="Was wurde geändert?" /></label><div className="wiki-editor-actions"><button className="wiki-primary" onClick={() => void publish()}>Änderungen veröffentlichen</button><button onClick={cancel}>Abbrechen</button></div><p className="wiki-editor-note">Mit dem Veröffentlichen bestätigst du, dass deine Änderung dem gemeinschaftlichen Aufbau von Schlachpedia dient.</p></div>
+function Editor({ lead, setLead, sections, setSections, editSummary, setEditSummary, publish, cancel }: { lead: string; setLead: (value: string) => void; sections: ArticleSection[]; setSections: (value: ArticleSection[]) => void; editSummary: string; setEditSummary: (value: string) => void; publish: () => Promise<void>; cancel: () => void }) {
+  function updateSection(id: string, patch: Partial<ArticleSection>) {
+    setSections(sections.map((section) => section.id === id ? { ...section, ...patch } : section))
+  }
+
+  return <div className="wiki-editor" id="edit"><div className="wiki-editor-toolbar"><strong>Artikel vollständig bearbeiten</strong><span>Alle Bereiche · Vorschau · Hilfe</span></div><label>Einleitung<textarea value={lead} onChange={(event) => setLead(event.target.value)} rows={5} aria-label="Einleitung bearbeiten" /></label>{sections.map((section) => <fieldset className="wiki-editor-section" key={section.id}><legend>{section.heading}</legend><label>Überschrift<input value={section.heading} onChange={(event) => updateSection(section.id, { heading: event.target.value })} /></label><label>Abschnittstext<textarea value={section.paragraphs.join('\n\n')} onChange={(event) => updateSection(section.id, { paragraphs: event.target.value.split(/\n\s*\n/).filter(Boolean) })} rows={7} aria-label={`${section.heading} bearbeiten`} /></label></fieldset>)}<label>Zusammenfassung der Änderung (optional)<input value={editSummary} onChange={(event) => setEditSummary(event.target.value)} placeholder="Was wurde geändert?" /></label><div className="wiki-editor-actions"><button className="wiki-primary" onClick={() => void publish()}>Änderungen veröffentlichen</button><button onClick={cancel}>Abbrechen</button></div><p className="wiki-editor-note">Mit dem Veröffentlichen bestätigst du, dass deine Änderung dem gemeinschaftlichen Aufbau von Schlachpedia dient.</p></div>
 }
 
 function HistoryPanel({ article, restoreRevision }: { article: Article; restoreRevision: (revision: ArticleRevision) => Promise<void> }) {

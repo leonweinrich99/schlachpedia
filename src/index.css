@@ -416,6 +416,9 @@ body { background: #f8f9fa; color: #202122; }
 .wiki-revision button { color: #3366cc; }
 .wiki-editor-actions .wiki-primary,
 .wiki-primary { color: #fff; }
+.wiki-editor-section { border: 1px solid var(--wiki-soft-border); margin: 18px 0; padding: 12px; }
+.wiki-editor-section legend { color: var(--wiki-blue-dark); font: 700 13px Arial, sans-serif; padding: 0 5px; }
+.wiki-editor-section label { display: block; margin-top: 8px; }
 @media (max-width: 680px) {
   .wiki-shell { height: auto; min-height: 100vh; overflow-y: visible; }
 }
