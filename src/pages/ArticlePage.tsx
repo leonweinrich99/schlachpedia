@@ -83,15 +83,13 @@ export function ArticlePage() {
         </aside>
 
         <main className="wiki-main" id="article">
-          <div className="wiki-breadcrumb">Schlachpedia <span>/</span> Artikel</div>
-          <div className="wiki-tabs-row">
-            <div className="wiki-tabs"><button className={activeTab === 'article' ? 'active' : ''} onClick={() => setActiveTab('article')}>Artikel</button><button className={activeTab === 'discussion' ? 'active' : ''} onClick={() => setActiveTab('discussion')}>Diskussion</button></div>
-            <div className="wiki-tabs wiki-tabs-right"><button className={activeTab === 'article' ? 'active' : ''} onClick={() => setActiveTab('article')}>Lesen</button><button onClick={startEditing} className={editing ? 'active' : ''}>Bearbeiten</button><button id="history" className={activeTab === 'history' ? 'active' : ''} onClick={() => setActiveTab('history')}>Versionsgeschichte</button></div>
-          </div>
-
           {activeTab === 'history' ? <HistoryPanel article={article} restoreRevision={restoreRevision} /> : activeTab === 'discussion' ? <DiscussionPanel /> : <>
-            <div className="wiki-title-line"><div><h1>{article.title}</h1><p>{article.subtitle}</p></div><span className="wiki-status">Artikel im Aufbau</span></div>
+            <div className="wiki-title-line"><div><h1>{article.title}</h1><p>{article.subtitle}</p></div></div>
             <div className="wiki-article-meta">Aus Schlachpedia, der freien Enzyklopädie &nbsp;·&nbsp; <a href="#edit">Bearbeiten</a></div>
+            <div className="wiki-tabs-row">
+              <div className="wiki-tabs"><button className="active" onClick={() => setActiveTab('article')}>Artikel</button><button onClick={() => setActiveTab('discussion')}>Diskussion</button></div>
+              <div className="wiki-tabs wiki-tabs-right"><button className="active" onClick={() => setActiveTab('article')}>Lesen</button><button onClick={startEditing} className={editing ? 'active' : ''}>Bearbeiten</button><button id="history" onClick={() => setActiveTab('history')}>Versionsgeschichte</button></div>
+            </div>
             <div className="wiki-content-grid">
               <article className="wiki-article-content">
                 {editing ? <Editor lead={draftLead} setLead={setDraftLead} sections={draftSections} setSections={setDraftSections} editSummary={editSummary} setEditSummary={setEditSummary} publish={publish} cancel={() => setEditing(false)} /> : <>

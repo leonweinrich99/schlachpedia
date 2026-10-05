@@ -43,7 +43,7 @@ body { background: #f8f9fa; color: var(--wiki-ink); font-family: Arial, Helvetic
 .wiki-sidebar nav { position: sticky; top: 102px; }
 .wiki-sidebar a { display: block; color: var(--wiki-blue); text-decoration: none; padding: 5px 0; font-size: 13px; }
 .wiki-sidebar a:hover, a:hover { text-decoration: underline; }
-.wiki-side-heading { font-size: 11px; font-weight: 700; color: var(--wiki-muted); text-transform: uppercase; letter-spacing: .1em; margin: 0 0 7px; padding-top: 20px; }
+.wiki-side-heading { font-size: 13px; font-weight: 400; color: var(--wiki-ink); letter-spacing: 0; margin: 0 0 7px; padding-top: 20px; }
 .wiki-side-heading:first-child { padding-top: 0; }
 .wiki-sidebar-footer { color: var(--wiki-muted); font-size: 11px; line-height: 1.5; margin-top: 54px; }
 .wiki-main { flex: 1; min-width: 0; padding: 26px 56px 50px; }
@@ -439,6 +439,7 @@ body { background: #f8f9fa; color: #202122; }
 .wiki-main { padding: 30px 48px 56px; max-width: 1210px; }
 .wiki-title-line h1, .wiki-panel h1 { font-size: 32px; font-weight: 400; letter-spacing: 0; }
 .wiki-title-line { margin-top: 24px; }
+.wiki-status { display: none; }
 .wiki-article-meta { border-bottom: 0; margin-top: 12px; }
 .wiki-article-content { font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.6; color: #202122; }
 .wiki-lead { line-height: 1.65; }
