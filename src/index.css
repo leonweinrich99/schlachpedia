@@ -16,7 +16,9 @@
   --wiki-accent: #f28c28;
 }
 
+html, body, #root { min-height: 100%; height: auto; overflow-y: auto; }
 body { background: #f8f9fa; color: var(--wiki-ink); font-family: Arial, Helvetica, sans-serif; }
+.wiki-shell { overflow: visible; }
 .wiki-shell { min-height: 100vh; background: var(--wiki-paper); }
 .wiki-topbar { height: 72px; display: flex; align-items: center; gap: 28px; padding: 0 38px; border-bottom: 1px solid var(--wiki-soft-border); background: #fff; position: sticky; top: 0; z-index: 20; }
 .wiki-brand { display: flex; align-items: center; gap: 10px; color: var(--wiki-ink); text-decoration: none; min-width: 218px; }
