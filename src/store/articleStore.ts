@@ -7,34 +7,57 @@ type ArticleDraft = Pick<Article, 'lead' | 'sections'>
 
 type ArticleState = {
   article: Article
+  loadArticle: (slug: string) => Promise<void>
+  createArticle: (title: string, lead: string) => Promise<string>
   saveRevision: (draft: ArticleDraft, summary: string, author: string) => Promise<void>
   restoreRevision: (revision: ArticleRevision) => Promise<void>
-  loadRemote: () => Promise<void>
 }
 
-const localKey = 'schlachpedia-article-v2'
+const localKey = (slug: string) => `schlachpedia-article-${slug}`
 
-function readLocal(): Article {
+function readLocal(slug = 'schlach'): Article {
   try {
-    const stored = localStorage.getItem(localKey)
+    const stored = localStorage.getItem(localKey(slug))
     return stored ? JSON.parse(stored) as Article : initialArticle
   } catch {
     return initialArticle
   }
 }
 
-function articleRef() {
-  return db ? doc(db, 'articles', 'schlach') : null
+function articleRef(slug: string) {
+  return db ? doc(db, 'articles', slug) : null
 }
 
 export const useArticleStore = create<ArticleState>((set, get) => ({
   article: readLocal(),
-  loadRemote: async () => {
-    const ref = firebaseEnabled ? articleRef() : null
+  loadArticle: async (slug) => {
+    const local = readLocal(slug)
+    if (local.slug === slug) set({ article: local })
+    const ref = firebaseEnabled ? articleRef(slug) : null
     if (!ref) return
     const snapshot = await getDoc(ref)
     if (snapshot.exists()) set({ article: snapshot.data() as Article })
-    else await setDoc(ref, initialArticle)
+    else if (slug === 'schlach') await setDoc(ref, initialArticle)
+  },
+  createArticle: async (title, lead) => {
+    const slug = title.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `artikel-${Date.now()}`
+    const createdAt = new Intl.DateTimeFormat('de-DE', { dateStyle: 'long', timeStyle: 'short' }).format(new Date())
+    const article: Article = {
+      slug,
+      title: title.trim(),
+      subtitle: 'Artikel im Aufbau',
+      lead: lead.trim(),
+      sections: [],
+      categories: ['Artikel im Aufbau'],
+      lastUpdated: createdAt,
+      revisionCount: 1,
+      revisions: [{ id: '1', author: 'Neue Seite', summary: 'Artikel erstellt', createdAt, content: JSON.stringify({ lead: lead.trim(), sections: [] }) }],
+    }
+    localStorage.setItem(localKey(slug), JSON.stringify(article))
+    const ref = firebaseEnabled ? articleRef(slug) : null
+    if (ref) await setDoc(ref, article)
+    set({ article })
+    return slug
   },
   saveRevision: async (draft, summary, author) => {
     const current = get().article
@@ -52,9 +75,9 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       lastUpdated: revision.createdAt,
       revisions: [revision, ...current.revisions],
     }
-    localStorage.setItem(localKey, JSON.stringify(next))
+    localStorage.setItem(localKey(next.slug), JSON.stringify(next))
     set({ article: next })
-    const ref = firebaseEnabled ? articleRef() : null
+    const ref = firebaseEnabled ? articleRef(next.slug) : null
     if (ref) await setDoc(ref, next)
   },
   restoreRevision: async (revision) => {

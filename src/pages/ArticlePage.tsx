@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { BookOpen, ChevronDown, Edit3, History, Menu, Search, UserCircle, X } from 'lucide-react'
 import { useArticleStore } from '../store/articleStore'
 import { useAuthStore } from '../store/authStore'
@@ -7,7 +7,7 @@ import type { Article, ArticleRevision, ArticleSection } from '../data/article'
 
 export function ArticlePage() {
   const article = useArticleStore((state) => state.article)
-  const loadRemote = useArticleStore((state) => state.loadRemote)
+  const loadArticle = useArticleStore((state) => state.loadArticle)
   const saveRevision = useArticleStore((state) => state.saveRevision)
   const restoreRevision = useArticleStore((state) => state.restoreRevision)
   const user = useAuthStore((state) => state.user)
@@ -20,8 +20,16 @@ export function ArticlePage() {
   const [search, setSearch] = useState('')
   const [mobileNav, setMobileNav] = useState(false)
   const [activeTab, setActiveTab] = useState<'article' | 'discussion' | 'history'>('article')
+  const { slug = 'schlach' } = useParams()
+  const [searchParams] = useSearchParams()
 
-  useEffect(() => { void loadRemote() }, [loadRemote])
+  useEffect(() => { void loadArticle(slug) }, [loadArticle, slug])
+  useEffect(() => {
+    if (searchParams.get('edit') !== '1' || article.slug !== slug) return
+    setDraftLead(article.lead)
+    setDraftSections(article.sections.map((section) => ({ ...section, paragraphs: [...section.paragraphs] })))
+    setEditing(true)
+  }, [article, searchParams, slug])
 
   const searchResults = useMemo(() => {
     if (!search.trim()) return []
@@ -65,7 +73,7 @@ export function ArticlePage() {
         <aside className={`wiki-sidebar ${mobileNav ? 'is-open' : ''}`}>
           <nav>
             <p className="wiki-side-heading">Navigation</p>
-            <a href="#article">Hauptseite</a><a href="#article">Zufälliger Artikel</a><a href="#history">Aktuelle Änderungen</a><a href="#article">Neue Seite anlegen</a>
+            <a href="#article">Hauptseite</a><a href="#article">Zufälliger Artikel</a><a href="#history">Aktuelle Änderungen</a><Link to="/neu">Neue Seite anlegen</Link>
             <p className="wiki-side-heading">Mitmachen</p>
             <a href="#edit">Artikel bearbeiten</a><a href="#discussion">Diskussionen</a><a href="#history">Versionsgeschichte</a>
             <p className="wiki-side-heading">Werkzeuge</p>

@@ -6,6 +6,7 @@ import { ToastContainer } from './components/UI/ToastContainer'
 import { ConfirmDialogHost } from './components/UI/ConfirmDialogHost'
 import { useAuthStore } from './store/authStore'
 import { ArticlePage } from './pages/ArticlePage'
+import { NewArticlePage } from './pages/NewArticlePage'
 
 // TODO: Eigene Seiten importieren, z.B.:
 // import { DashboardPage } from './pages/DashboardPage'
@@ -19,7 +20,8 @@ function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<Layout />}>
+          <Route element={<Layout />}>
+          <Route path="/neu" element={<NewArticlePage />} />
           <Route path="*" element={<ArticlePage />} />
         </Route>
       </Routes>

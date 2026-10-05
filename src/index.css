@@ -419,6 +419,14 @@ body { background: #f8f9fa; color: #202122; }
 .wiki-editor-section { border: 1px solid var(--wiki-soft-border); margin: 18px 0; padding: 12px; }
 .wiki-editor-section legend { color: var(--wiki-blue-dark); font: 700 13px Arial, sans-serif; padding: 0 5px; }
 .wiki-editor-section label { display: block; margin-top: 8px; }
+.wiki-new-article { max-width: 800px; }
+.wiki-back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--wiki-blue); font: 13px Arial, sans-serif; margin-bottom: 30px; text-decoration: none; }
+.wiki-new-form { background: var(--wiki-sand); border: 1px solid var(--wiki-border); padding: 18px; font: 14px Arial, sans-serif; }
+.wiki-new-form label { display: block; color: var(--wiki-muted); font-size: 12px; margin-bottom: 18px; }
+.wiki-new-form input, .wiki-new-form textarea { display: block; width: 100%; margin-top: 7px; border: 1px solid var(--wiki-border); background: #fff; color: var(--wiki-ink); padding: 11px; font: 16px/1.5 Georgia, serif; resize: vertical; }
+.wiki-new-form input:focus, .wiki-new-form textarea:focus { border-color: var(--wiki-blue); outline: 2px solid #d9e5ff; outline-offset: -2px; }
+.wiki-form-error { border-left: 4px solid #b32424; background: #fee7e7; color: #8b1a1a; padding: 10px 12px; }
+.wiki-cancel-link { color: var(--wiki-blue); display: inline-flex; align-items: center; padding: 8px 12px; text-decoration: none; }
 @media (max-width: 680px) {
   .wiki-shell { height: auto; min-height: 100vh; overflow-y: visible; }
 }
