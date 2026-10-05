@@ -13,7 +13,7 @@ type ArticleState = {
   restoreRevision: (revision: ArticleRevision) => Promise<void>
 }
 
-const localKey = (slug: string) => `schlachpedia-article-${slug}-v3`
+const localKey = (slug: string) => `schlachpedia-article-${slug}-v4`
 
 function readLocal(slug = 'schlach'): Article {
   try {

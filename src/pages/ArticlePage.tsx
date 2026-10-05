@@ -128,10 +128,17 @@ function HistoryPanel({ article, restoreRevision }: { article: Article; restoreR
 function DiscussionPanel() { return <div className="wiki-panel"><span className="wiki-eyebrow">Zusammenarbeit</span><h1>Diskussion: Schlach</h1><p className="wiki-panel-intro">Auf dieser Seite können Fragen, Hinweise und Verbesserungsvorschläge zum Artikel gesammelt werden.</p><div className="wiki-discussion-empty"><BookOpen size={30} /><strong>Noch keine Diskussion</strong><span>Starte die erste Diskussion zu diesem Artikel.</span><button className="wiki-primary">Thema hinzufügen</button></div></div> }
 
 function TableOfContents({ sections }: { sections: ArticleSection[] }) {
-  const topLevel = sections.filter((section) => /^\d+\s/.test(section.heading))
+  const topLevelIds = ['ueberblick', 'begriff-sprache', 'merkmale', 'ursprung', 'schauplaetze', 'elilolilolilo', 'organisation', 'einzelnachweise']
+  const childGroups: Record<string, string[]> = {
+    'begriff-sprache': ['aussprache', 'herleitung', 'schlachruf', 'lebenseinstellung'],
+    merkmale: ['entstehung', 'teilnehmer', 'dauer-alkohol'],
+    ursprung: ['zettler', 'einordnung'],
+    schauplaetze: ['kroko', 'eck', 'ls10'],
+    organisation: ['komitee', 'satzung', 'schlachcounter'],
+  }
+  const topLevel = topLevelIds.map((id) => sections.find((section) => section.id === id)).filter((section): section is ArticleSection => Boolean(section))
   return <div className="wiki-toc"><strong>Inhaltsverzeichnis</strong><button>ausblenden</button>{topLevel.map((parent) => {
-    const number = parent.heading.match(/^(\d+)/)?.[1] || ''
-    const children = sections.filter((section) => new RegExp(`^${number}\\.`).test(section.heading))
-    return <div className="wiki-toc-group" key={parent.id}><a href={`#${parent.id}`}><span>{number}</span>{parent.heading.replace(/^\d+\s*/, '')}</a>{children.length > 0 && <div className="wiki-toc-children">{children.map((child) => <a key={child.id} href={`#${child.id}`}><span>{child.heading.match(/^([\d.]+)/)?.[1]}</span>{child.heading.replace(/^[\d.]+\s*/, '')}</a>)}</div>}</div>
+    const children = (childGroups[parent.id] || []).map((id) => sections.find((section) => section.id === id)).filter((section): section is ArticleSection => Boolean(section))
+    return <div className="wiki-toc-group" key={parent.id}><a href={`#${parent.id}`}>{parent.heading}</a>{children.length > 0 && <div className="wiki-toc-children">{children.map((child) => <a key={child.id} href={`#${child.id}`}>{child.heading}</a>)}</div>}</div>
   })}</div>
 }
