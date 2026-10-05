@@ -98,7 +98,11 @@ export function ArticlePage() {
                   <p className="wiki-lead">{article.lead} <sup>[<a href="#sources">1</a>]</sup></p>
                   <div className="wiki-notice"><strong>Hinweis:</strong> Dieser Artikel ist ein Platzhalter. Hilf mit, ihn zu verbessern, und <button onClick={startEditing}>bearbeite ihn</button>.</div>
                   <TableOfContents sections={article.sections} />
-                  {article.sections.map((section) => <section className="wiki-section" id={section.id} key={section.id}><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}
+                  {article.sections.map((section) => {
+                    const subsectionIds = ['aussprache', 'herleitung', 'schlachruf', 'lebenseinstellung', 'entstehung', 'teilnehmer', 'dauer-alkohol', 'zettler', 'einordnung', 'kroko', 'eck', 'ls10', 'komitee', 'satzung', 'schlachcounter']
+                    const isSubsection = subsectionIds.includes(section.id)
+                    return <section className={`wiki-section ${isSubsection ? 'wiki-subsection' : ''}`} id={section.id} key={section.id}>{isSubsection ? <h3>{section.heading}</h3> : <h2>{section.heading}</h2>}{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>
+                  })}
                   <section className="wiki-sources" id="sources"><h2>Einzelnachweise</h2><ol><li>Schlachpedia-Redaktion: Vorläufige Dokumentation des Begriffs „Schlach“, 2026.</li></ol></section>
                 </>}
               </article>
