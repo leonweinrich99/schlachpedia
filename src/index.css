@@ -385,8 +385,9 @@ input, textarea, select { font-size: 16px; }
 
 /* The encyclopedia remains a light reading surface even when the shared
    template's dark-mode preference is present. */
-html, body, #root { color-scheme: light; }
+html, body, #root { color-scheme: light; overscroll-behavior: auto; }
 body { background: #f8f9fa; color: #202122; }
+.wiki-shell { height: 100vh; overflow-y: auto; overscroll-behavior: auto; }
 .wiki-shell,
 .wiki-topbar,
 .wiki-search-wrap input,
@@ -415,3 +416,6 @@ body { background: #f8f9fa; color: #202122; }
 .wiki-revision button { color: #3366cc; }
 .wiki-editor-actions .wiki-primary,
 .wiki-primary { color: #fff; }
+@media (max-width: 680px) {
+  .wiki-shell { height: auto; min-height: 100vh; overflow-y: visible; }
+}
