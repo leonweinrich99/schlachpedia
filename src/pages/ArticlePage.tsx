@@ -97,7 +97,7 @@ export function ArticlePage() {
                 {editing ? <Editor lead={draftLead} setLead={setDraftLead} sections={draftSections} setSections={setDraftSections} editSummary={editSummary} setEditSummary={setEditSummary} publish={publish} cancel={() => setEditing(false)} /> : <>
                   <p className="wiki-lead">{article.lead} <sup>[<a href="#sources">1</a>]</sup></p>
                   <div className="wiki-notice"><strong>Hinweis:</strong> Dieser Artikel ist ein Platzhalter. Hilf mit, ihn zu verbessern, und <button onClick={startEditing}>bearbeite ihn</button>.</div>
-                  <div className="wiki-toc"><strong>Inhaltsverzeichnis</strong><button>ausblenden</button>{article.sections.map((section, index) => <a key={section.id} href={`#${section.id}`}><span>{index + 1}</span>{section.heading}</a>)}</div>
+                  <TableOfContents sections={article.sections} />
                   {article.sections.map((section) => <section className="wiki-section" id={section.id} key={section.id}><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}
                   <section className="wiki-sources" id="sources"><h2>Einzelnachweise</h2><ol><li>Schlachpedia-Redaktion: Vorläufige Dokumentation des Begriffs „Schlach“, 2026.</li></ol></section>
                 </>}
@@ -126,3 +126,12 @@ function HistoryPanel({ article, restoreRevision }: { article: Article; restoreR
 }
 
 function DiscussionPanel() { return <div className="wiki-panel"><span className="wiki-eyebrow">Zusammenarbeit</span><h1>Diskussion: Schlach</h1><p className="wiki-panel-intro">Auf dieser Seite können Fragen, Hinweise und Verbesserungsvorschläge zum Artikel gesammelt werden.</p><div className="wiki-discussion-empty"><BookOpen size={30} /><strong>Noch keine Diskussion</strong><span>Starte die erste Diskussion zu diesem Artikel.</span><button className="wiki-primary">Thema hinzufügen</button></div></div> }
+
+function TableOfContents({ sections }: { sections: ArticleSection[] }) {
+  const topLevel = sections.filter((section) => /^\d+\s/.test(section.heading))
+  return <div className="wiki-toc"><strong>Inhaltsverzeichnis</strong><button>ausblenden</button>{topLevel.map((parent) => {
+    const number = parent.heading.match(/^(\d+)/)?.[1] || ''
+    const children = sections.filter((section) => new RegExp(`^${number}\\.`).test(section.heading))
+    return <div className="wiki-toc-group" key={parent.id}><a href={`#${parent.id}`}><span>{number}</span>{parent.heading.replace(/^\d+\s*/, '')}</a>{children.length > 0 && <div className="wiki-toc-children">{children.map((child) => <a key={child.id} href={`#${child.id}`}><span>{child.heading.match(/^([\d.]+)/)?.[1]}</span>{child.heading.replace(/^[\d.]+\s*/, '')}</a>)}</div>}</div>
+  })}</div>
+}

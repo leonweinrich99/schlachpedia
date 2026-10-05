@@ -430,3 +430,32 @@ body { background: #f8f9fa; color: #202122; }
 @media (max-width: 680px) {
   .wiki-shell { height: auto; min-height: 100vh; overflow-y: visible; }
 }
+
+/* MediaWiki-like editorial proportions and hierarchy. */
+.wiki-shell { background: #fff; }
+.wiki-topbar { height: 80px; border-bottom-color: #c8ccd1; }
+.wiki-layout { max-width: 1480px; }
+.wiki-sidebar { flex-basis: 220px; background: #f8f9fa; border-right-color: #c8ccd1; }
+.wiki-main { padding: 30px 48px 56px; max-width: 1210px; }
+.wiki-title-line h1, .wiki-panel h1 { font-size: 32px; font-weight: 400; letter-spacing: 0; }
+.wiki-title-line { margin-top: 24px; }
+.wiki-article-meta { border-bottom: 0; margin-top: 12px; }
+.wiki-article-content { font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.6; color: #202122; }
+.wiki-lead { line-height: 1.65; }
+.wiki-section h2, .wiki-sources h2 { font-family: Georgia, 'Times New Roman', serif; font-size: 23px; font-weight: 400; margin-top: 28px; margin-bottom: 10px; }
+.wiki-section p { margin-bottom: 13px; }
+.wiki-toc { width: 310px; padding: 12px 16px; margin: 22px 0 28px; border-color: #a2a9b1; background: #f8f9fa; font-size: 13px; }
+.wiki-toc > strong { display: inline-block; margin-right: 10px; }
+.wiki-toc > button { display: inline; }
+.wiki-toc-group > a, .wiki-toc-children a { text-decoration: none; }
+.wiki-toc-group > a { margin-top: 4px; }
+.wiki-toc-children { margin-left: 25px; }
+.wiki-toc a span { width: 33px; }
+.wiki-infobox { border-color: #a2a9b1; }
+.wiki-notice { border-left-width: 3px; background: #f8f9fa; border-top: 1px solid #eaecf0; border-right: 1px solid #eaecf0; border-bottom: 1px solid #eaecf0; }
+.wiki-categories { border-top-color: #a2a9b1; }
+@media (max-width: 680px) {
+  .wiki-topbar { height: 60px; }
+  .wiki-main { padding: 22px 17px 40px; }
+  .wiki-toc { width: min(100%, 310px); }
+}
