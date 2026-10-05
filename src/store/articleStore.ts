@@ -13,7 +13,7 @@ type ArticleState = {
   restoreRevision: (revision: ArticleRevision) => Promise<void>
 }
 
-const localKey = (slug: string) => `schlachpedia-article-${slug}`
+const localKey = (slug: string) => `schlachpedia-article-${slug}-v3`
 
 function readLocal(slug = 'schlach'): Article {
   try {
@@ -36,7 +36,13 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
     const ref = firebaseEnabled ? articleRef(slug) : null
     if (!ref) return
     const snapshot = await getDoc(ref)
-    if (snapshot.exists()) set({ article: snapshot.data() as Article })
+    if (snapshot.exists()) {
+      const remote = snapshot.data() as Article
+      if (slug === 'schlach' && remote.contentVersion !== initialArticle.contentVersion) {
+        await setDoc(ref, initialArticle)
+        set({ article: initialArticle })
+      } else set({ article: remote })
+    }
     else if (slug === 'schlach') await setDoc(ref, initialArticle)
   },
   createArticle: async (title, lead) => {
@@ -51,6 +57,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
       categories: ['Artikel im Aufbau'],
       lastUpdated: createdAt,
       revisionCount: 1,
+      contentVersion: 1,
       revisions: [{ id: '1', author: 'Neue Seite', summary: 'Artikel erstellt', createdAt, content: JSON.stringify({ lead: lead.trim(), sections: [] }) }],
     }
     localStorage.setItem(localKey(slug), JSON.stringify(article))
