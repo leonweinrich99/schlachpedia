@@ -55,7 +55,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
     }
     localStorage.setItem(localKey(slug), JSON.stringify(article))
     const ref = firebaseEnabled ? articleRef(slug) : null
-    if (ref) await setDoc(ref, article)
+    if (ref) await setDoc(ref, article).catch(() => {})
     set({ article })
     return slug
   },
@@ -78,7 +78,7 @@ export const useArticleStore = create<ArticleState>((set, get) => ({
     localStorage.setItem(localKey(next.slug), JSON.stringify(next))
     set({ article: next })
     const ref = firebaseEnabled ? articleRef(next.slug) : null
-    if (ref) await setDoc(ref, next)
+    if (ref) await setDoc(ref, next).catch(() => {})
   },
   restoreRevision: async (revision) => {
     try {
