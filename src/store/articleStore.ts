@@ -10,7 +10,7 @@ type ArticleState = {
   loadRemote: () => Promise<void>
 }
 
-const localKey = 'schlachpedia-article'
+const localKey = 'schlachpedia-article-v2'
 
 function readLocal(): Article {
   try {

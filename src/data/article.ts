@@ -27,39 +27,70 @@ export type Article = {
 export const initialArticle: Article = {
   slug: 'schlach',
   title: 'Schlach',
-  subtitle: 'Begriff, Geschichte und Bedeutung',
-  lead: 'Schlach ist ein Begriff, dessen Bedeutung und Verwendung in unterschiedlichen Zusammenhängen beschrieben werden kann. Dieser Artikel dient als vorläufiger Ausgangspunkt für die gemeinschaftliche Arbeit an Schlachpedia.',
+  subtitle: 'Feierkonzept und gemeinschaftliche Lebenseinstellung',
+  lead: 'Ein Schlach bezeichnet eine gemeinschaftlich beschlossene Feier, die durch Alkoholkonsum, ausgedehnten Spaß und eine ausgelassene Atmosphäre bis spät in die Nacht geprägt ist. Der Begriff beschreibt dabei nicht nur eine einzelne Veranstaltung, sondern auch eine Haltung dazu, wie eine Feierung gestaltet werden soll.',
   sections: [
     {
       id: 'ueberblick',
       heading: 'Überblick',
       paragraphs: [
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer facilisis, nisl at volutpat posuere, erat sapien consequat mauris, vitae faucibus lorem sem a erat. In Schlachpedia werden zentrale Begriffe verständlich, nachvollziehbar und mit Quellen belegt dokumentiert.',
-        'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec vel libero eget nunc gravida dignissim. Der vorliegende Text ist ein Platzhalter und kann von registrierten Nutzerinnen und Nutzern erweitert werden.',
+        'Ein Schlach entsteht, sobald sich die Mehrheit der anwesenden Gruppe darauf geeinigt hat, einen Schlach zu machen. Jede Person kann einen Schlach ausrufen; eine besondere Autorität des Zettlers besteht dabei nicht. Ein Schlach kann geplant oder spontan entstehen.',
+        'Für einen Schlach gibt es keine feste Mindestanzahl an Personen. Eine Gruppe mit mehr als zwei Personen gilt jedoch als besonders empfehlenswert. Der Zettler muss nicht anwesend sein, wird als Kernmitglied der Schlach-Kultur aber besonders gern gesehen.',
       ],
     },
     {
-      id: 'geschichte',
-      heading: 'Geschichte',
+      id: 'merkmale',
+      heading: 'Merkmale',
       paragraphs: [
-        'Praesent commodo, nisl sit amet porttitor tincidunt, justo lacus tempor erat, vitae dignissim erat neque vitae mi. Die Geschichte des Begriffs lässt sich in mehreren Perspektiven betrachten und soll in zukünftigen Versionen durch belastbare Belege ergänzt werden.',
+        'Eine Feier muss zunächst als Schlach bezeichnet werden. Der Schlachruf „Wir machen Schlach“ sollte in der Regel ebenfalls erklingen, ist aber keine zwingende Voraussetzung. In den allermeisten Fällen wird er lautstark gerufen.',
+        'Als derzeit notwendiges Merkmal gilt der Konsum von Alkohol. Eine Methode, einen Schlach ohne Alkoholeinfluss durchzuführen, ist bislang weder untersucht noch nachgewiesen und gilt daher als Mythos. Diese Beschreibung ist eine Binnenregel des Konzepts und keine Empfehlung zu riskantem Alkoholkonsum.',
+        'Ein Schlach muss bis spät in die Nacht andauern. Außerdem wird ein Besuch im Eck ausdrücklich empfohlen. Eine besondere Anzahl an Gästen oder die Anwesenheit des Zettlers ist dagegen nicht erforderlich.',
       ],
     },
     {
-      id: 'verwendung',
-      heading: 'Verwendung',
+      id: 'ursprung',
+      heading: 'Ursprung und Überlieferung',
       paragraphs: [
-        'Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Quisque velit nisi, pretium ut lacinia in, elementum id enim. In verschiedenen Kontexten können sich Bedeutung, Aussprache und Gebrauch verändern.',
-        'Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Nulla porttitor accumsan tincidunt. Diese Sektion ist bewusst offen gehalten, damit die Community sie später gemeinsam präzisieren kann.',
+        'Der Begriff wird in den überlieferten Erzählungen maßgeblich auf den Zettler zurückgeführt. Der Zettler, bürgerlich Niklas Zettl, prägte und lebte den Begriff seit seiner Ankunft in der Domstadt Fulda vor, insbesondere im Umfeld der LS10.',
+        'Ein einzelnes Gründungsereignis lässt sich nicht datieren. Wahrscheinlich haben auch andere Personen und Vorgänger zur Entstehung beigetragen. Im gegenwärtigen Kontext gilt der Zettler dennoch als maßgeblicher Präger und frühes Vorbild des Schlachs.',
+        'Die Herleitung aus dem deutschen Wort „Schlag“ beschreibt den Einschlag von Spaß und Freude auf einen Abend. Ob es sich dabei um eine tatsächliche sprachgeschichtliche Herleitung oder um eine nachträgliche Erklärung der Schlach-Kultur handelt, ist nicht abschließend belegt.',
       ],
     },
     {
-      id: 'siehe-auch',
-      heading: 'Siehe auch',
-      paragraphs: ['Lorem ipsum dolor sit amet: verwandte Begriffe und weiterführende Artikel werden hier später verknüpft.'],
+      id: 'ls10',
+      heading: 'LS10',
+      paragraphs: [
+        'Die LS10 ist ein Gebäude in Fulda, in dem sich eine Wohngemeinschaft befindet, in der der Zettler lebt. Sie ist nicht der Ursprungsort des Schlachs, spielt aber als Schauplatz eine wichtige Rolle.',
+        'In der LS10 wurden bereits Schläge durchgeführt. Als typische Bereiche gelten insbesondere die Küche und der Flur, in denen WG-Partys und Schläge stattfinden können.',
+      ],
+    },
+    {
+      id: 'elilolilolilo',
+      heading: 'Elilolilolilo',
+      paragraphs: [
+        'Elilolilolilo bezeichnet die Afterparty, bei der Spaghetti Aglio e Olio gegessen werden. Das Event findet im Zusammenhang mit Feierungen und Schlägen in der LS10 statt, gehört aber nicht zwangsläufig zu jedem Schlach.',
+        'Der Name ist eine vereinfachte Aussprache des Gerichts. Zu später Stunde kann Spaghetti Aglio e Olio nicht mehr vollständig ausgesprochen werden, weshalb sich die verkürzte Form Elilolilolilo etabliert hat.',
+        'Ein guter Schlach kann zu Elilolilolilo führen, muss es aber nicht. Umgekehrt gilt: Ein guter Schlach kann auch ohne Elilolilolilo auskommen.',
+      ],
+    },
+    {
+      id: 'sprache',
+      heading: 'Begriff und Sprache',
+      paragraphs: [
+        'Die Mehrzahl von Schlach lautet „Schläge“. Die Form „Schlachs“ wird nicht verwendet, da sie sich nach der überlieferten Sprachregel der Schlach-Kultur nicht gut ausspricht.',
+        'Der Begriff Schlach steht damit sowohl für eine konkrete Feier als auch für eine Lebenseinstellung: eine bewusste Entscheidung, eine Feierung gemeinsam, ausgelassen und bis spät in die Nacht zu gestalten.',
+      ],
+    },
+    {
+      id: 'einordnung',
+      heading: 'Einordnung der Überlieferungen',
+      paragraphs: [
+        'Die Entstehungsgeschichte des Schlachs beruht derzeit vor allem auf Erzählungen. In diesem Artikel werden belegte Angaben, mündliche Überlieferungen und legendäre Ausschmückungen deshalb getrennt betrachtet.',
+        'Ob ein Ereignis ein Schlach war, gilt innerhalb der Gruppe meist als eindeutig. In strittigen Fällen kann die Einordnung jedoch im Komitee diskutiert werden. Die Zusammensetzung und Arbeitsweise dieses Komitees ist Gegenstand weiterer Artikel.',
+      ],
     },
   ],
-  categories: ['Begriffsklärung', 'Artikel im Aufbau', 'Schlachpedia'],
+  categories: ['Schlach-Kultur', 'Feierformen', 'Fulda', 'Artikel im Aufbau'],
   lastUpdated: '5. Oktober 2026, 14:32 Uhr',
   revisionCount: 4,
   revisions: [

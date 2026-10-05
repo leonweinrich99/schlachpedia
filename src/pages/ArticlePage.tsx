@@ -46,7 +46,7 @@ export function ArticlePage() {
         <button className="wiki-mobile-menu" aria-label="Menü öffnen" onClick={() => setMobileNav((open) => !open)}>{mobileNav ? <X size={20} /> : <Menu size={20} />}</button>
         <Link to="/" className="wiki-brand" aria-label="Schlachpedia Startseite">
           <span className="wiki-brand-mark"><BookOpen size={22} /></span>
-          <span><strong>Schlach</strong><em>pedia</em><small>Die freie Enzyklopädie</small></span>
+          <span><strong>Schlach</strong><em>pedia</em><small>Das Nachschlachwerk</small></span>
         </Link>
         <div className="wiki-search-wrap">
           <Search size={17} />
