@@ -1,0 +1,90 @@
+# CLAUDE.md
+
+> Diese Datei gibt einer KI (Claude Code, Cursor, etc.) den nötigen Kontext, um im Projekt
+> zu arbeiten, ohne jedes Mal den ganzen Code lesen zu müssen. Nach dem initialen Aufbau
+> der App mit der KI ausfüllen/aktualisieren lassen.
+
+## Befehle
+
+```bash
+npm run dev       # Dev-Server, http://localhost:5173
+npm run build     # tsc + Production-Build -> dist/
+npm run preview   # Production-Build lokal ansehen
+npm run lint      # ESLint
+npm run typecheck # tsc ohne Build
+npm run test      # Vitest (Unit-Tests)
+npm run test:e2e  # Playwright (Mobile-Boundary-/Overflow-Tests, siehe unten)
+```
+
+## Architektur
+
+**"<APP-NAME>"** — <ein Satz: was macht die App / für wen>. React + TypeScript + Vite,
+Firebase Auth + Firestore für Login/Cloud-Sync.
+
+Folgt dem Standard-App-System aus `app-template` (Design/Struktur siehe dort):
+Tailwind + CSS-Variablen-basiertes iOS-Theming (Light/Dark), Zustand-Stores, React Router
+mit gemeinsamem `Layout`/`Navbar` (Desktop-Sidebar + Mobile-Bottom-Tab-Bar).
+
+### State Management
+
+Zustand-Stores unter `src/store/`:
+
+- **`authStore.ts`** — Firebase-Auth-Listener (`init()`), `user` (`undefined` = wird geprüft,
+  `null` = abgemeldet), `signInWithGoogle`, `signInWithApple`, `signOutUser`.
+- **`themeStore.ts`** — persistierter Dark/Light-Toggle (`data-theme`-Attribut auf `<html>`).
+- **`toastStore.ts`** / **`confirmStore.ts`** — imperative UI-Feedback-APIs
+  (`toast.success(...)`, `await confirm({...})`), UI in `components/UI/`.
+- <weitere Domain-Stores hier auflisten, z.B. `appStore.ts` mit den fachlichen Daten,
+  jeweils mit `persist()` + Registrierung in `utils/cloudSync.ts`>
+
+### Datenmodell / Firebase
+
+- `src/lib/firebase.ts` — Firebase-Config aus Env-Vars, `firebaseEnabled`-Flag
+  (App läuft ohne Firebase-Keys lokal im Offline-Modus weiter), inkl. Storage-Instanz.
+- `src/lib/env.ts` — warnt in der Konsole bei unvollständiger Firebase-Konfiguration.
+- `src/utils/cloudSync.ts` — spiegelt `persist()`-Stores (localStorage-Blobs) nach
+  Firestore. Registrierte Stores: <hier auflisten, z.B. "appStore unter Key 'app-store'">
+- Firestore-Struktur: <hier eintragen, z.B. "ein Dokument pro User unter `users/{uid}`">
+- Security Rules: `firebase/firestore.rules` (+ `storage.rules`, falls Uploads genutzt werden).
+- Bild-Uploads (falls genutzt): `src/lib/storage.ts` (`uploadImage`).
+- Push-Benachrichtigungen (falls eingebunden): siehe
+  `boilerplate-modules/push-notifications/README.md` im `app-template`-Repo.
+
+### Routing / Views
+
+React Router (`src/App.tsx`) mit gemeinsamem `Layout` (`src/components/Layout/`):
+
+- `/` — <Seite 1>
+- `/...` — <Seite 2>
+
+`REQUIRE_LOGIN`-Konstante in `App.tsx` steuert, ob Login Pflicht ist oder die App
+offline nutzbar bleibt.
+
+### UI-Kit
+
+`src/components/UI/`: `ErrorBoundary` (fängt Render-Fehler ab), `ToastContainer`
+(+ `toast.success/error/info`), `ConfirmDialogHost` (+ `confirm({...})`), `EmptyState`,
+`Skeleton`/`SkeletonCard`, `ActionSheet`. Immer diese Bausteine verwenden statt
+Ad-hoc-Lösungen für Feedback/Ladezustände/Bestätigungen.
+
+### Design System
+
+Tailwind-Config / CSS-Variablen-Theming wie alle Apps aus `app-template`
+(`src/index.css`): `surface-*`, `label-*`, `fill-*`, `separator`-Tokens wechseln über
+`[data-theme]`; `ios-card`, `ios-section`, `ios-row`, `btn-ios-*`, Typografie-Klassen
+(`ios-title-1` … `ios-caption`), `ios-tab-bar`, `ios-progress-*`, `ios-sheet-*`.
+Akzentfarbe(n) der App: <hier eintragen, z.B. "iOS-Blau" oder eigene Markenfarbe(n)>.
+
+### Mobile-Boundaries (kein horizontaler Overflow)
+
+`overflow-x: hidden` auf `html`/`body` als Sicherheitsnetz, aber die eigentliche Regel:
+Text neben Icons in einer Flex-Zeile IMMER mit `<div className="flex-1 min-w-0">` +
+`truncate` (bzw. ohne `truncate` bei mehrzeiligem Text) umschließen — Konvention direkt
+in `index.css` dokumentiert. Automatisiert geprüft in `e2e/overflow.spec.ts`
+(Playwright, mehrere Phone-Breiten von 320-390px). Neue Route → in die `ROUTES`-Liste
+dort eintragen.
+
+### PWA
+
+<Falls vite-plugin-pwa genutzt wird: kurz Manifest-Eckdaten (Name, Icons, theme_color)
+eintragen. Sonst diesen Abschnitt löschen.>

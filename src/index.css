@@ -1,0 +1,382 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Schlachpedia visual system: warm editorial neutrals inspired by classic wikis. */
+:root {
+  color-scheme: light;
+  --wiki-paper: #ffffff;
+  --wiki-ink: #202122;
+  --wiki-muted: #54595d;
+  --wiki-border: #a2a9b1;
+  --wiki-soft-border: #eaecf0;
+  --wiki-blue: #3366cc;
+  --wiki-blue-dark: #2a4b8d;
+  --wiki-sand: #f8f9fa;
+  --wiki-accent: #f28c28;
+}
+
+body { background: #f8f9fa; color: var(--wiki-ink); font-family: Arial, Helvetica, sans-serif; }
+.wiki-shell { min-height: 100vh; background: var(--wiki-paper); }
+.wiki-topbar { height: 72px; display: flex; align-items: center; gap: 28px; padding: 0 38px; border-bottom: 1px solid var(--wiki-soft-border); background: #fff; position: sticky; top: 0; z-index: 20; }
+.wiki-brand { display: flex; align-items: center; gap: 10px; color: var(--wiki-ink); text-decoration: none; min-width: 218px; }
+.wiki-brand-mark { width: 38px; height: 38px; border: 2px solid var(--wiki-ink); border-radius: 50%; display: grid; place-items: center; background: var(--wiki-accent); color: #fff; transform: rotate(-8deg); }
+.wiki-brand strong, .wiki-brand em { font-family: Georgia, serif; font-size: 22px; font-style: normal; letter-spacing: -1px; }
+.wiki-brand em { color: var(--wiki-blue); }
+.wiki-brand small { display: block; color: var(--wiki-muted); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; margin-top: -1px; }
+.wiki-search-wrap { flex: 1; max-width: 650px; position: relative; display: flex; align-items: center; color: var(--wiki-muted); }
+.wiki-search-wrap > svg { position: absolute; left: 12px; }
+.wiki-search-wrap input { width: 100%; height: 38px; border: 1px solid var(--wiki-border); padding: 0 82px 0 38px; font-size: 14px; color: var(--wiki-ink); outline: 0; }
+.wiki-search-wrap input:focus { border-color: var(--wiki-blue); box-shadow: inset 0 0 0 1px var(--wiki-blue); }
+.wiki-search-wrap kbd { position: absolute; right: 11px; border: 1px solid var(--wiki-border); padding: 2px 5px; color: var(--wiki-muted); font-size: 11px; }
+.wiki-search-results { position: absolute; top: 42px; left: 0; right: 0; background: #fff; border: 1px solid var(--wiki-border); box-shadow: 0 5px 12px #0002; z-index: 30; }
+.wiki-search-results button { display: flex; flex-direction: column; width: 100%; text-align: left; padding: 9px 14px; border: 0; background: #fff; color: var(--wiki-ink); cursor: pointer; }
+.wiki-search-results button:hover { background: var(--wiki-sand); }
+.wiki-search-results span { color: var(--wiki-muted); font-size: 12px; }
+.wiki-account { margin-left: auto; white-space: nowrap; }
+.wiki-login, .wiki-user-button { background: none; border: 0; color: var(--wiki-blue); cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+.wiki-mobile-menu { display: none; border: 0; background: none; }
+.wiki-layout { display: flex; max-width: 1500px; margin: 0 auto; }
+.wiki-sidebar { flex: 0 0 232px; padding: 30px 24px; border-right: 1px solid var(--wiki-soft-border); min-height: calc(100vh - 72px); }
+.wiki-sidebar nav { position: sticky; top: 102px; }
+.wiki-sidebar a { display: block; color: var(--wiki-blue); text-decoration: none; padding: 5px 0; font-size: 13px; }
+.wiki-sidebar a:hover, a:hover { text-decoration: underline; }
+.wiki-side-heading { font-size: 11px; font-weight: 700; color: var(--wiki-muted); text-transform: uppercase; letter-spacing: .1em; margin: 0 0 7px; padding-top: 20px; }
+.wiki-side-heading:first-child { padding-top: 0; }
+.wiki-sidebar-footer { color: var(--wiki-muted); font-size: 11px; line-height: 1.5; margin-top: 54px; }
+.wiki-main { flex: 1; min-width: 0; padding: 26px 56px 50px; }
+.wiki-breadcrumb { color: var(--wiki-muted); font-size: 12px; margin-bottom: 17px; }.wiki-breadcrumb span { padding: 0 8px; color: var(--wiki-border); }
+.wiki-tabs-row { display: flex; justify-content: space-between; border-bottom: 1px solid var(--wiki-border); min-height: 38px; }
+.wiki-tabs { display: flex; gap: 1px; }.wiki-tabs button { border: 0; border-bottom: 3px solid transparent; padding: 8px 14px; background: transparent; color: var(--wiki-blue); cursor: pointer; font-size: 13px; }.wiki-tabs button.active { border-bottom-color: var(--wiki-accent); color: var(--wiki-ink); font-weight: 700; }
+.wiki-title-line { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-top: 30px; }.wiki-title-line h1, .wiki-panel h1 { font: 400 38px/1.15 Georgia, 'Times New Roman', serif; margin: 0; }.wiki-title-line p { color: var(--wiki-muted); margin: 5px 0 0; font-size: 14px; }.wiki-status { color: #956100; background: #fff4cc; border: 1px solid #e8d596; padding: 5px 9px; font-size: 11px; font-weight: 700; }
+.wiki-article-meta { color: var(--wiki-muted); font-size: 12px; margin: 19px 0 22px; }.wiki-article-meta a, .wiki-article-content a, .wiki-categories a, .wiki-footer a { color: var(--wiki-blue); }
+.wiki-content-grid { display: grid; grid-template-columns: minmax(0, 760px) 235px; gap: 36px; max-width: 1040px; }.wiki-article-content { font: 16px/1.65 Georgia, 'Times New Roman', serif; }.wiki-lead { margin-top: 0; }.wiki-lead:first-letter { font-size: 1.45em; }.wiki-notice { font: 13px/1.5 Arial, sans-serif; border-left: 4px solid var(--wiki-accent); background: #fff8eb; padding: 12px 14px; margin: 22px 0; }.wiki-notice button { background: none; color: var(--wiki-blue); border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
+.wiki-toc { font: 13px/1.7 Arial, sans-serif; display: flex; flex-direction: column; background: var(--wiki-sand); border: 1px solid var(--wiki-soft-border); padding: 13px 18px; margin: 25px 0 28px; width: 265px; }.wiki-toc strong { font-size: 14px; }.wiki-toc button { align-self: flex-start; border: 0; background: none; padding: 0; color: var(--wiki-blue); font-size: 11px; cursor: pointer; }.wiki-toc a { text-decoration: none; }.wiki-toc a span { display: inline-block; width: 26px; color: var(--wiki-muted); }
+.wiki-section h2, .wiki-sources h2 { font: 400 25px/1.2 Georgia, serif; border-bottom: 1px solid var(--wiki-border); padding-bottom: 5px; margin: 30px 0 13px; }.wiki-section p { margin: 0 0 15px; }.wiki-infobox { align-self: start; background: var(--wiki-sand); border: 1px solid var(--wiki-border); font: 12px/1.4 Arial, sans-serif; }.wiki-infobox h3 { font: 700 17px Georgia, serif; background: #f0f2f4; text-align: center; padding: 10px; margin: 0; }.wiki-infobox-icon { display: grid; place-items: center; height: 90px; background: #f0a34c; color: white; font: 60px Georgia, serif; margin: 10px; }.wiki-infobox dl { display: grid; grid-template-columns: 45% 55%; margin: 12px; }.wiki-infobox dt, .wiki-infobox dd { border-top: 1px solid #d5d8db; padding: 6px 4px; margin: 0; }.wiki-infobox dt { font-weight: 700; }.wiki-infobox dd { color: var(--wiki-muted); }.wiki-infobox > a { border-top: 1px solid #d5d8db; color: var(--wiki-blue); display: flex; align-items: center; gap: 6px; padding: 10px 12px; text-decoration: none; }
+.wiki-categories { border-top: 1px solid var(--wiki-border); margin-top: 38px; padding: 13px 0; font: 12px Arial, sans-serif; }.wiki-categories a { padding-left: 8px; }.wiki-categories a:not(:last-child)::after { content: ' ·'; color: var(--wiki-muted); padding-left: 8px; }.wiki-footer { border-top: 1px solid var(--wiki-soft-border); margin-top: 30px; padding-top: 18px; display: flex; gap: 22px; color: var(--wiki-muted); font-size: 11px; }.wiki-footer span { margin-right: auto; }
+.wiki-editor { font: 14px Arial, sans-serif; border: 1px solid var(--wiki-border); padding: 15px; background: var(--wiki-sand); }.wiki-editor-toolbar { display: flex; justify-content: space-between; border-bottom: 1px solid var(--wiki-border); padding-bottom: 10px; margin-bottom: 12px; }.wiki-editor-toolbar span { color: var(--wiki-blue); font-size: 12px; }.wiki-editor textarea, .wiki-editor input { display: block; width: 100%; border: 1px solid var(--wiki-border); padding: 10px; font: 15px/1.5 Georgia, serif; margin: 7px 0 14px; resize: vertical; }.wiki-editor label { font-size: 12px; color: var(--wiki-muted); }.wiki-editor input { font: 14px Arial, sans-serif; }.wiki-editor-actions { display: flex; gap: 10px; }.wiki-editor-actions button, .wiki-panel button, .wiki-revision button { border: 1px solid var(--wiki-border); background: #fff; color: var(--wiki-blue); padding: 8px 12px; cursor: pointer; font-size: 13px; }.wiki-editor-actions .wiki-primary, .wiki-primary { background: var(--wiki-blue); color: white; border-color: var(--wiki-blue); }.wiki-editor-note { color: var(--wiki-muted); font-size: 11px; margin-bottom: 0; }
+.wiki-panel { max-width: 800px; padding-top: 30px; }.wiki-eyebrow { color: var(--wiki-accent); font: 700 11px Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }.wiki-panel-heading { display: flex; justify-content: space-between; align-items: flex-start; }.wiki-panel-heading svg { color: var(--wiki-accent); }.wiki-panel-intro { color: var(--wiki-muted); font: 15px/1.6 Arial, sans-serif; margin: 18px 0 26px; }.wiki-revision { display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--wiki-soft-border); padding: 14px 0; }.wiki-revision-dot { width: 9px; height: 9px; background: var(--wiki-accent); border-radius: 50%; }.wiki-revision-info { display: flex; flex-direction: column; gap: 4px; flex: 1; font: 14px Arial, sans-serif; }.wiki-revision-info span { color: var(--wiki-muted); font-size: 12px; }.wiki-discussion-empty { border: 1px dashed var(--wiki-border); display: flex; flex-direction: column; align-items: center; gap: 9px; padding: 44px 20px; color: var(--wiki-muted); font: 14px Arial, sans-serif; }.wiki-discussion-empty svg { color: var(--wiki-accent); }.wiki-discussion-empty .wiki-primary { margin-top: 10px; }
+@media (max-width: 900px) { .wiki-topbar { padding: 0 18px; gap: 16px; }.wiki-brand { min-width: auto; }.wiki-brand small { display: none; }.wiki-search-wrap { max-width: none; }.wiki-search-wrap kbd { display: none; }.wiki-sidebar { flex-basis: 190px; padding-left: 17px; padding-right: 17px; }.wiki-main { padding-left: 28px; padding-right: 28px; }.wiki-content-grid { grid-template-columns: minmax(0, 1fr) 205px; gap: 22px; } }
+@media (max-width: 680px) { .wiki-topbar { height: 60px; position: relative; }.wiki-mobile-menu { display: block; }.wiki-account { display: none; }.wiki-brand strong, .wiki-brand em { font-size: 18px; }.wiki-brand-mark { width: 31px; height: 31px; }.wiki-search-wrap { flex: 1; }.wiki-search-wrap input { height: 34px; padding-left: 34px; font-size: 12px; }.wiki-layout { display: block; }.wiki-sidebar { display: none; position: absolute; z-index: 15; width: 250px; background: #fff; box-shadow: 4px 8px 12px #0002; min-height: 0; }.wiki-sidebar.is-open { display: block; }.wiki-main { padding: 20px 17px 36px; }.wiki-tabs-row { overflow-x: auto; }.wiki-tabs-right { margin-left: auto; }.wiki-tabs button { padding-left: 8px; padding-right: 8px; white-space: nowrap; font-size: 12px; }.wiki-title-line { margin-top: 23px; flex-direction: column; gap: 10px; }.wiki-title-line h1, .wiki-panel h1 { font-size: 31px; }.wiki-content-grid { display: flex; flex-direction: column; }.wiki-infobox { order: -1; max-width: 100%; }.wiki-toc { width: 100%; }.wiki-footer { flex-wrap: wrap; gap: 12px; }.wiki-footer span { width: 100%; }.wiki-revision { align-items: flex-start; }.wiki-revision button { padding: 7px; } }
+
+/* ═══════════════════════════════════════════════════════
+   CSS CUSTOM PROPERTIES — Dark Theme (default)
+   iOS Systempalette
+═══════════════════════════════════════════════════════ */
+:root {
+  color-scheme: dark;
+
+  --bg-primary:   #000000;
+  --bg-secondary: #1C1C1E;
+  --bg-tertiary:  #2C2C2E;
+  --bg-elevated:  #3A3A3C;
+
+  --label-primary:    #FFFFFF;
+  --label-secondary:  rgba(235,235,245,0.6);
+  --label-tertiary:   rgba(235,235,245,0.3);
+  --label-quaternary: rgba(235,235,245,0.16);
+
+  --separator: rgba(84,84,88,0.65);
+
+  --fill-primary:    rgba(120,120,128,0.36);
+  --fill-secondary:  rgba(120,120,128,0.32);
+  --fill-tertiary:   rgba(120,120,128,0.24);
+  --fill-quaternary: rgba(120,120,128,0.18);
+
+  --ios-blue:   #0A84FF;
+  --ios-green:  #30D158;
+  --ios-red:    #FF453A;
+  --ios-orange: #FF9F0A;
+  --ios-yellow: #FFD60A;
+  --ios-purple: #BF5AF2;
+  --ios-pink:   #FF375F;
+  --ios-teal:   #40CBE0;
+  --ios-indigo: #5E5CE6;
+
+  --tab-bar-bg:     rgba(28,28,30,0.88);
+  --sidebar-bg:     #1C1C1E;
+  --sheet-bg:       #1C1C1E;
+  --tooltip-bg:     #2C2C2E;
+  --tooltip-text:   #FFFFFF;
+  --section-shadow: none;
+  --section-border: transparent;
+
+  /* TODO: App-spezifische Akzentfarbe(n) hier als eigene Variablen ergänzen, z.B.:
+     --brand-primary: #34C759;
+     --brand-secondary: #8B5E34;
+     und in tailwind.config.js unter colors.brand referenzieren. */
+}
+
+/* ═══════════════════════════════════════════════════════
+   Light Theme
+   iOS Systempalette (hell)
+═══════════════════════════════════════════════════════ */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-primary:   #F2F2F7;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary:  #F2F2F7;
+  --bg-elevated:  #E5E5EA;
+
+  --label-primary:    #000000;
+  --label-secondary:  rgba(60,60,67,0.6);
+  --label-tertiary:   rgba(60,60,67,0.3);
+  --label-quaternary: rgba(60,60,67,0.18);
+
+  --separator: rgba(60,60,67,0.29);
+
+  --fill-primary:    rgba(120,120,128,0.20);
+  --fill-secondary:  rgba(120,120,128,0.16);
+  --fill-tertiary:   rgba(120,120,128,0.12);
+  --fill-quaternary: rgba(120,120,128,0.08);
+
+  --ios-blue:   #007AFF;
+  --ios-green:  #34C759;
+  --ios-red:    #FF3B30;
+  --ios-orange: #FF9500;
+  --ios-yellow: #FFCC00;
+  --ios-purple: #AF52DE;
+  --ios-pink:   #FF2D55;
+  --ios-teal:   #32ADE6;
+  --ios-indigo: #5856D6;
+
+  --tab-bar-bg:     rgba(249,249,249,0.92);
+  --sidebar-bg:     #F2F2F7;
+  --sheet-bg:       #FFFFFF;
+  --tooltip-bg:     #FFFFFF;
+  --tooltip-text:   #000000;
+  --section-shadow: 0 1px 4px rgba(0,0,0,0.07), 0 0 0 0.5px rgba(0,0,0,0.06);
+  --section-border: rgba(0,0,0,0.06);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Base
+═══════════════════════════════════════════════════════ */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Sicherheitsnetz gegen horizontales Scrollen/überlaufende Elemente auf
+       schmalen Phone-Screens (iPhone SE = 375px, teils sogar 320px). Einzelne
+       Komponenten müssen trotzdem selbst korrekt umbrechen/truncaten (siehe
+       Kommentar bei .safe-bottom weiter unten) — das hier fängt nur ab, WENN
+       doch mal etwas zu breit wird, damit die ganze Seite nicht seitlich
+       wegrutscht. Automatisiert geprüft in e2e/overflow.spec.ts. */
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--label-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    width: 100%;
+    overscroll-behavior: none;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* Bilder/Videos dürfen nie breiter sein als ihr Container — klassischer
+     Überlauf-Verursacher bei nutzergenerierten Inhalten (Fotos, Uploads). */
+  img, video, canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Verhindert Auto-Zoom bei Zahlen-Inputs in iOS Safari */
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button { -webkit-appearance: none; }
+  input[type='number'] { -moz-appearance: textfield; }
+
+  ::-webkit-scrollbar { width: 0; background: transparent; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   Components
+═══════════════════════════════════════════════════════ */
+@layer components {
+  /* ─── Flächen ─── */
+  .ios-card    { @apply bg-surface-secondary rounded-ios-lg overflow-hidden; box-shadow: var(--section-shadow); }
+  .ios-section { @apply bg-surface-secondary rounded-ios-xl overflow-hidden; box-shadow: var(--section-shadow); transition: background-color 0.25s ease; }
+  .ios-row     { @apply flex items-center px-4 py-3 gap-3; }
+
+  .ios-sep-top    { border-top:    0.5px solid var(--separator); }
+  .ios-sep-bottom { border-bottom: 0.5px solid var(--separator); }
+  .ios-sep-right  { border-right:  0.5px solid var(--separator); }
+
+  /* ─── Buttons ─── */
+  .btn-ios-primary {
+    @apply font-semibold rounded-ios-xl px-5 py-3 text-[15px] leading-none
+           active:opacity-70 transition-all select-none text-center;
+    background-color: var(--ios-blue);
+    color: #FFFFFF;
+  }
+  .btn-ios-secondary {
+    @apply font-semibold rounded-ios-xl px-5 py-3 text-[15px] leading-none
+           active:opacity-70 transition-opacity select-none text-center;
+    background-color: var(--fill-tertiary);
+    color: var(--ios-blue);
+  }
+  .btn-ios-danger {
+    @apply font-semibold rounded-ios-xl px-5 py-3 text-[15px] leading-none
+           active:opacity-70 transition-opacity select-none text-center;
+    background-color: var(--fill-tertiary);
+    color: var(--ios-red);
+  }
+  .btn-ios-text {
+    @apply font-medium text-[15px] active:opacity-60 transition-opacity select-none;
+    color: var(--ios-blue);
+  }
+  .btn-ios-icon {
+    @apply w-9 h-9 rounded-full flex items-center justify-center active:opacity-60 transition-opacity;
+    background-color: var(--fill-tertiary);
+  }
+
+  /* ─── Inputs ─── */
+  .ios-input {
+    @apply w-full rounded-ios text-[15px] px-4 py-3 focus:outline-none;
+    background-color: var(--bg-tertiary);
+    color: var(--label-primary);
+    caret-color: var(--ios-blue);
+  }
+  .ios-input::placeholder { color: var(--label-tertiary); }
+
+  .ios-search {
+    @apply w-full rounded-ios text-[15px] pl-9 pr-4 py-2.5 focus:outline-none;
+    background-color: var(--fill-tertiary);
+    color: var(--label-primary);
+    caret-color: var(--ios-blue);
+  }
+  .ios-search::placeholder { color: var(--label-secondary); }
+
+  /* ─── Typografie ─── */
+  .ios-large-title { @apply text-[34px] font-bold tracking-tight leading-tight; }
+  .ios-title-1     { @apply text-[28px] font-bold tracking-tight; }
+  .ios-title-2     { @apply text-[22px] font-bold tracking-tight; }
+  .ios-title-3     { @apply text-[20px] font-semibold; }
+  .ios-headline    { @apply text-[17px] font-semibold; }
+  .ios-body        { @apply text-[17px] font-normal; }
+  .ios-callout     { @apply text-[16px] font-normal; }
+  .ios-subhead     { @apply text-[15px] font-normal; }
+  .ios-footnote    { @apply text-[13px] font-normal; }
+  .ios-caption     { @apply text-[12px] font-normal; }
+
+  /* ─── Sheets (Bottom-Sheet-Modals) ─── */
+  .ios-sheet-overlay {
+    @apply fixed inset-0 z-50 flex items-end md:items-center justify-center;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .ios-sheet {
+    @apply w-full max-w-lg max-h-[92dvh] flex flex-col rounded-t-ios-2xl md:rounded-ios-xl;
+    background-color: var(--sheet-bg);
+    transition: background-color 0.25s ease;
+  }
+  .ios-sheet-handle {
+    @apply w-9 h-1 rounded-full mx-auto mt-2.5 mb-1 shrink-0;
+    background-color: var(--fill-primary);
+  }
+  .ios-sheet-header {
+    @apply flex items-center justify-between px-4 py-3 shrink-0;
+    border-bottom: 0.5px solid var(--separator);
+  }
+
+  /* ─── Tab-Bar (mobile) ─── */
+  .ios-tab-bar {
+    @apply fixed bottom-0 left-0 right-0 z-40 flex md:hidden;
+    background: var(--tab-bar-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 0.5px solid var(--separator);
+    padding-bottom: env(safe-area-inset-bottom, 8px);
+    min-height: 68px;
+    transition: background 0.25s ease;
+  }
+
+  /* ─── Fortschrittsbalken ─── */
+  .ios-progress-track { @apply h-2 rounded-full overflow-hidden; background-color: var(--fill-quaternary); }
+  .ios-progress-fill  { @apply h-full rounded-full transition-all duration-500; }
+
+  /* ─── Segment-Control ─── */
+  .ios-segment {
+    @apply flex rounded-ios-lg p-1 gap-1;
+    background-color: var(--bg-tertiary);
+  }
+  .ios-segment-item {
+    @apply flex-1 flex items-center justify-center gap-2 py-2 rounded-ios ios-subhead font-semibold transition-all;
+    color: var(--label-secondary);
+  }
+  .ios-segment-item.active {
+    @apply shadow-ios-sm;
+    background-color: var(--bg-elevated);
+    color: var(--label-primary);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   Utilities
+═══════════════════════════════════════════════════════ */
+@layer utilities {
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 16px); }
+  .safe-top    { padding-top:    env(safe-area-inset-top,    0px);  }
+  .safe-left   { padding-left:   env(safe-area-inset-left,   0px);  }
+  .safe-right  { padding-right:  env(safe-area-inset-right,  0px);  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   KONVENTION: Text in Flex-Zeilen darf nie den Bildschirm sprengen
+═══════════════════════════════════════════════════════
+   Ein Flex-Kind wächst per Default nicht über seinen Inhalt hinaus zu
+   schrumpfen (min-width: auto) — bei langen, unumbrochenen Strings (Namen,
+   E-Mails, Rezept-/Übungstitel, ...) reißt das auf schmalen Phones (iPhone SE
+   = 375px) die ganze Zeile breiter als der Bildschirm. Deshalb IMMER dieses
+   Muster für Text neben Icons/Buttons in einer Flex-Zeile (siehe ios-row):
+   
+     <div className="ios-row">
+       <Icon size={18} />
+       <div className="flex-1 min-w-0">
+         <p className="ios-body truncate">{möglicherweise.langer.text}</p>
+       </div>
+     </div>
+   
+   `min-w-0` erlaubt dem Flex-Kind, kleiner als sein Inhalt zu werden;
+   `truncate` schneidet dann sauber mit "…" ab statt umzubrechen/überzulaufen.
+   Für mehrzeiligen Text (Beschreibungen, Toast-Nachrichten) stattdessen
+   `min-w-0` ohne `truncate` verwenden — dann wird normal umgebrochen.
+   Automatisiert geprüft in e2e/overflow.spec.ts (siehe PLAYBOOK.md).
+
+/* ─── Animationen ─── */
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-slide-up { animation: slideUp 0.32s cubic-bezier(0.32,0.72,0,1) both; }
+.animate-fade-in  { animation: fadeIn  0.2s ease both; }
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+.animate-skeleton-pulse { animation: skeletonPulse 1.4s ease-in-out infinite; }
+
+/* ═══════════════════════════════════════════════════════
+   iOS-spezifische Overrides — außerhalb @layer, damit sie immer gewinnen
+═══════════════════════════════════════════════════════ */
+
+/* Verhindert Auto-Zoom in iOS Safari (greift bei Schriftgröße < 16px) */
+input, textarea, select { font-size: 16px; }
+
+/* Scrollbars überall ausblenden (Chrome/Safari + Firefox) */
+* { -ms-overflow-style: none; scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; }

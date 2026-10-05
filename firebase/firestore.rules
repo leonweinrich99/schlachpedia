@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow read: if isSelf(userId);
+      allow create, update: if isSelf(userId);
+    }
+
+    // Artikel sind öffentlich lesbar. Veröffentlichungen dürfen nur
+    // angemeldete Nutzer anlegen; die Oberfläche speichert jede Änderung
+    // als neue Version im Artikel-Dokument.
+    match /articles/{articleId} {
+      allow read: if true;
+      allow create, update: if isSignedIn();
+      allow delete: if false;
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // OPTIONALE VARIANTE: Admin-Approval-Workflow (Kickbase-Stil).
+    // Für Apps, bei denen sich mehrere Personen registrieren, aber
+    // ein Admin neue Accounts erst freischalten muss.
+    // Zum Aktivieren: Block oben durch diesen ersetzen und die
+    // Admin-Mail unten eintragen.
+    // ─────────────────────────────────────────────────────────────
+    // function isAdmin() {
+    //   return isSignedIn() &&
+    //     exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+    //     get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    // }
+    //
+    // function isVerifiedInitialAdmin() {
+    //   return isSignedIn() &&
+    //     request.auth.token.email == "DEINE-ADMIN-MAIL@example.com" &&
+    //     request.auth.token.email_verified == true;
+    // }
+    //
+    // match /users/{userId} {
+    //   allow read: if isSelf(userId) || isAdmin();
+    //
+    //   allow create: if isSelf(userId) && (
+    //     (request.resource.data.status == 'pending' && request.resource.data.role == 'user') ||
+    //     (isVerifiedInitialAdmin() && request.resource.data.status == 'approved' && request.resource.data.role == 'admin')
+    //   );
+    //
+    //   allow update: if isAdmin();
+    //   allow delete: if isAdmin();
+    // }
+  }
+}

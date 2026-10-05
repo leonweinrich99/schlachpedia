@@ -1,0 +1,23 @@
+{
+  "//": "BEISPIEL — nur relevant, wenn die App neben dem Vite-Frontend zusätzlich einen eigenständigen Node-Backend-Server braucht (z.B. für externe API-Integrationen mit eigenem State/Scraping, wie beim Kickbase-Ligasystem-Tool). Für die meisten Apps reicht der einfache vercel.json + api/-Serverless-Functions-Ansatz (siehe PLAYBOOK.md Schritt 6).",
+  "services": {
+    "frontend": {
+      "root": "frontend",
+      "framework": "vite"
+    },
+    "backend": {
+      "root": "backend",
+      "entrypoint": "server.js"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api(/.*)?",
+      "destination": { "type": "service", "service": "backend" }
+    },
+    {
+      "source": "/(.*)",
+      "destination": { "type": "service", "service": "frontend" }
+    }
+  ]
+}
